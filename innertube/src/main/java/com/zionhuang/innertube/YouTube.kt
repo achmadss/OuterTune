@@ -287,11 +287,11 @@ object YouTube {
             response.continuationContents?.gridContinuation != null -> {
                 val gridContinuation = response.continuationContents.gridContinuation
                 ArtistItemsContinuationPage(
-                    items = gridContinuation.items.mapNotNull {
+                    items = gridContinuation.items?.mapNotNull {
                         it.musicTwoRowItemRenderer?.let { renderer ->
                             ArtistItemsPage.fromMusicTwoRowItemRenderer(renderer)
                         }
-                    },
+                    } ?: emptyList(),
                     continuation = gridContinuation.continuations?.getContinuation()
                 )
             }
@@ -536,8 +536,8 @@ object YouTube {
             contents?.gridContinuation != null -> {
                 LibraryContinuationPage(
                     items = contents.gridContinuation.items
-                        .mapNotNull (GridRenderer.Item::musicTwoRowItemRenderer)
-                        .mapNotNull { LibraryPage.fromMusicTwoRowItemRenderer(it) },
+                        ?.mapNotNull (GridRenderer.Item::musicTwoRowItemRenderer)
+                        ?.mapNotNull { LibraryPage.fromMusicTwoRowItemRenderer(it) } ?: emptyList(),
                     continuation = contents.gridContinuation.continuations?.getContinuation()
                 )
             }
